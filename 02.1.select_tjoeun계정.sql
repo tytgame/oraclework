@@ -181,7 +181,7 @@ FROM EMPLOYEE;
     * 비교연산자
     대소비교 : >, <, >=, <=
     같은지 비교 : =
-    같지 않은지 비교 : !=, %=, <>
+    같지 않은지 비교 : !=, ^=, <>
 */
 
 -- EMPLOYEE 테이블에서 부서코드가 'D9'인 사원들의 모든 컬럼 조회
@@ -324,7 +324,7 @@ WHERE EMAIL LIKE '____%'; -- 언더바 4개로 인식 글자가 4글자 이상�
 /*
     * _ 가 와일드카드인지 데이터값인지 구분지어야 함
     -> 데이터값으로 취급하고자 하는 값 앞에 나만의 와일드카드(아무거나 가능)를 제시하고 ESCAPE에 등록한다.
-      * 특수기호 중 '&'를 쓰면 오라클에서는 사용자로부터 입력받는 키워드이므로 안쓰는 것이 좋다
+      * 특수기호 중 '&'를 쓰면 오라클에서는 사용자로부터 입력받는 키워드이므로 안 쓰는 것이 좋다
 */
 SELECT EMP_NAME, EMAIL
 FROM EMPLOYEE
@@ -425,7 +425,7 @@ SELECT *
 FROM EMPLOYEE
 --WHERE JOB_CODE ='J7' OR JOB_CODE = 'J2' AND SALARY >= 2000000
 WHERE (JOB_CODE ='J7' OR JOB_CODE = 'J2') AND SALARY >= 2000000
-
+/*
     <ORDER BY 절>
     SELECT문 가장 마지막 줄에 작성. 실행순서 또한 마지막에 실행
     
@@ -451,7 +451,6 @@ FROM EMPLOYEE
 
 -- ORDER BY BONUS DESC;         보너스의 내림차순 정렬 (NULL값은 맨 앞에 나옴)
 ORDER BY BONUS DESC, SALARY ASC; -- 보너스의 내림차순 정렬을 하고, 보너스가 같으면 급여의 오름차순 정렬
-
 -- EMPLOYEE 테이블에서 모든 사원의 사원명, 연봉 조회(이때 연봉의 내림차순 정렬 조회)
 SELECT EMP_NAME, SALARY*12 연봉
 FROM EMPLOYEE
@@ -460,7 +459,7 @@ FROM EMPLOYEE
 ORDER BY 2 DESC;        -- 2번째 컬럼
 
 
-
+/*
 --------------------------------- 실습문제 ---------------------------------
 --1. 사수가 없고 부서배치도 받지 않은 사원들의 사원명, 사수사번, 부서코드 조회
 SELECT EMP_NAME, MANAGER_ID, DEPT_CODE
@@ -478,61 +477,65 @@ WHERE HIRE_DATE >= '95/01/01' AND DEPT_CODE IS NOT NULL;
 --   사번, 사원명, 급여, 입사일, 보너스 조회
 SELECT EMP_ID, EMP_NAME, SALARY, HIRE_DATE, BONUS
 FROM EMPLOYEE
-WHERE (SALARY BETWEEN 2000000 AND 5000000) AND HIRE_DATE >= '01/01/01' AND BONUS IS NULL;
+WHERE (SALARY BETWEEN 2000000 AND 5000000)
+      AND HIRE_DATE >= '01/01/01'
+      AND BONUS IS NULL;
 --5. 보너스포함 연봉이 NULL이 아니고 이름에 '하'가 포함되어 있는 사원들의 
 --   사번, 사원명, 급여, 보너스포함연봉 조회 (별칭부여)
 SELECT EMP_ID, EMP_NAME, SALARY, SALARY*12*(1+BONUS) 보너스포함연봉
 FROM EMPLOYEE
-WHERE EMP_NAME LIKE '%하%' AND SALARY*12*(1+BONUS) IS NOT NULL;
+WHERE EMP_NAME LIKE '%하%'
+      AND SALARY*12*(1+BONUS) IS NOT NULL;
+*/
 ------------------------------- 종합 문제 ----------------------------------
 -- 1. JOB 테이블에서 모든 정보 조회
-/*
+
 SELECT *
-FROM JOB
-*/
+FROM JOB;
+
 -- 2. JOB 테이블에서 직급 이름 조회
-/*
+
 SELECT JOB_NAME
-FROM JOB
-*/
+FROM JOB;
+
 -- 3. DEPARTMENT 테이블에서 모든 정보 조회
-/*
+
 SELECT *
-FROM DEPARTMENT
-*/
+FROM DEPARTMENT;
+
 -- 4. EMPLOYEE테이블의 직원명, 이메일, 전화번호, 고용일 조회
-/*
+
 SELECT EMP_NAME, EMAIL, PHONE, HIRE_DATE
-FROM EMPLOYEE
-*/
+FROM EMPLOYEE;
+
 -- 5. EMPLOYEE테이블의 고용일, 사원 이름, 월급 조회
-/*
+
 SELECT HIRE_DATE, EMP_NAME, SALARY
-FROM EMPLOYEE
-*/
+FROM EMPLOYEE;
+
 -- 6. EMPLOYEE테이블에서 이름, 연봉, 총수령액(보너스포함), 실수령액(총수령액 -(연봉*세금 3%)) 조회
-/*
+
 SELECT EMP_NAME, SALARY*12 연봉, SALARY*12*(1+BONUS) "총수령액(보너스포함)", SALARY*12*(1+BONUS)-(SALARY*12*0.03) "실수령액(총수령액-(연봉*세금 3%))"
-FROM EMPLOYEE
-*/
+FROM EMPLOYEE;
+
 -- 7. EMPLOYEE테이블에서 JOB_CODE가 J1인 사원의 이름, 월급, 고용일, 연락처 조회
-/*
+
 SELECT EMP_NAME, SALARY, HIRE_DATE, PHONE
 FROM EMPLOYEE
 WHERE JOB_CODE IN ('J1');
-*/
+
 -- 8. EMPLOYEE테이블에서 실수령액(6번 참고)이 5천만원 이상인 사원의 이름, 월급, 실수령액, 고용일 조회
-/*
+
 SELECT EMP_NAME, SALARY, SALARY*12*(1+BONUS)-(SALARY*12*0.03) 실수령액, HIRE_DATE
 FROM EMPLOYEE
 WHERE SALARY*12*(1+BONUS)-(SALARY*12*0.03) >= 50000000;
-*/
+
 -- 9. EMPLOYEE테이블에 월급이 4000000이상이고 JOB_CODE가 J2인 사원의 전체 내용 조회
-/*
+
 SELECT *
 FROM EMPLOYEE
 WHERE SALARY >= 4000000 AND JOB_CODE IN ('J2');
-*/
+
 -- 10. EMPLOYEE테이블에 DEPT_CODE가 D9이거나 D5인 사원 중 
 --     고용일이 02년 1월 1일보다 빠른 사원의 이름, 부서코드, 고용일 조회
 SELECT EMP_NAME, DEPT_CODE, HIRE_DATE
@@ -554,7 +557,7 @@ WHERE NOT PHONE LIKE '010%';
 --     고용일이 90/01/01 ~ 00/12/01이고, 급여가 270만 이상인 사원의 전체를 조회
 SELECT *
 FROM EMPLOYEE
-WHERE DEPT_CODE IN ('D9','D6') AND HIRE_DATE BETWEEN '90/01/01' AND '00/12/01' AND SALARY >= 2700000 AND EMAIL LIKE '____#_%' ESCAPE '#';
-
-
-
+WHERE DEPT_CODE IN ('D9','D6')
+        AND HIRE_DATE BETWEEN '90/01/01' AND '00/12/01'
+        AND SALARY >= 2700000
+        AND EMAIL LIKE '____#_%' ESCAPE '#';
