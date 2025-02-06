@@ -126,6 +126,58 @@ UNION
 SELECT EMP_NAME, DEPT_CODE, SALARY
 FROM EMPLOYEE
 WHERE SALARY >= 3000000;
+-------------------------------2. INTERSECT-----------------------------------------
+-- 부서코드가 D5이면서 급여가 300만원 초과인 사원의 사번, 사원명, 부서코드, 급여 조회
+SELECT EMP_ID, EMP_NAME, DEPT_CODE, SALARY
+FROM EMPLOYEE
+WHERE DEPT_CODE = 'D5'
+INTERSECT
+SELECT EMP_ID, EMP_NAME, DEPT_CODE, SALARY
+FROM EMPLOYEE
+WHERE SALARY > 3000000;
+-- 집합연산자 사용시 주의사항
+-- 각 쿼리문의 SELECT절에는 동일한 컬럼이어야한다.
+
+--AND
+SELECT EMP_ID, EMP_NAME, DEPT_CODE, SALARY
+FROM EMPLOYEE
+WHERE DEPT_CODE = 'D5' AND SALARY > 3000000;
+-------------------------------3. UNION ALL----------------------------------------
+-- 부서코드가 D5이면서 급여가 300만원 초과인 사원의 사번, 사원명, 부서코드, 급여 조회
+-- 여러개의 쿼리 결과를 모두 다 더해서 출력
+SELECT EMP_ID, EMP_NAME, DEPT_CODE, SALARY
+FROM EMPLOYEE
+WHERE DEPT_CODE = 'D5'
+UNION ALL
+SELECT EMP_ID, EMP_NAME, DEPT_CODE, SALARY
+FROM EMPLOYEE
+WHERE SALARY > 3000000
+ORDER BY EMP_NAME;
+-------------------------------4. MINUS----------------------------------------
+-- 부서코드가 D5이면서 급여가 300만원 초과인 사원의 사번, 사원명, 부서코드, 급여 조회
+SELECT EMP_ID, EMP_NAME, DEPT_CODE, SALARY
+FROM EMPLOYEE
+WHERE DEPT_CODE = 'D5'
+MINUS
+SELECT EMP_ID, EMP_NAME, DEPT_CODE, SALARY
+FROM EMPLOYEE
+WHERE SALARY > 3000000
+ORDER BY EMP_NAME;
+
+-- AND
+SELECT EMP_ID, EMP_NAME, DEPT_CODE, SALARY
+FROM EMPLOYEE
+WHERE DEPT_CODE = 'D5' AND SALARY <= 3000000; -- D5인 사원중에서 3백만원 이하인 사원
+
+
+
+
+
+
+
+
+
+
 
 
 
