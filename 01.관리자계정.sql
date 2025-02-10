@@ -36,7 +36,11 @@ GRANT RESOURCE TO tjoeun;
 ALTER USER TJOEUN DEFAULT TABLESPACE USERS QUOTA unlimited ON USERS;
 -- ALTER USER tjoeun quota 50M on users;
 
-
+--ddl사용자 만들기
+ALTER SESSION SET "_oracle_script" = true;
+CREATE USER ddl IDENTIFIED BY 1234;
+GRANT CONNECT, RESOURCE TO ddl;
+ALTER USER ddl default tablespace users quota unlimited on users;
 
 
 
